@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Stuti's Birthday Party</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Alex+Brush&family=Poppins:wght@400;600;700&family=Great+Vibes&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style/style.css" />
+</head>
+<body>
+  <!-- Background balloons (gold + pearl) -->
+  <div id="balloon-sky" class="balloon-sky" aria-hidden="true"></div>
+
+  <!-- Centered stage -->
+  <main class="scene">
+    <div id="card" class="book closed" aria-label="Tap to open or close">
+      
+      <!-- Container for pages to maintain centering -->
+      <div class="book-container">
+        
+        <!-- LEFT inside page (initially hidden, shown when open) -->
+        <section id="leftPage" class="panel left">
+          <div class="page">
+            <div class="photo">
+              <img src="images/hero.jpg" alt="Birthday photo" />
+            </div>
+            <div class="note">
+              <h2 class="wedding-title">For You 💛</h2>
+              <p class="wedding-body">Join us for an evening of celebration, laughter, and making beautiful memories together!</p>
+            </div>
+          </div>
+        </section>
+
+        <!-- RIGHT inside page -->
+        <section id="rightPage" class="panel right">
+          <div class="page">
+            <div class="note schedule wedding">
+              <h2 class="wedding-title">Celebration Plan</h2>
+
+              <div class="entry"><span class="time">7:00 pm</span><span class="text">Birthday celebrations &amp; wishes 🎂</span></div>
+              <div class="divider" aria-hidden="true"><span class="line"></span><svg class="crown" viewBox="0 0 64 32" width="44" height="22"><path d="M4 26l6-14 10 10 12-16 12 16 10-10 6 14H4zM6 28h52v2H6z"/></svg><span class="line"></span></div>
+
+              <div class="entry"><span class="time">7:30 pm</span><span class="text">Appetizers / starters 🍢</span></div>
+              <div class="divider" aria-hidden="true"><span class="line"></span><svg class="crown" viewBox="0 0 64 32" width="44" height="22"><path d="M4 26l6-14 10 10 12-16 12 16 10-10 6 14H4zM6 28h52v2H6z"/></svg><span class="line"></span></div>
+
+              <div class="entry"><span class="time">7:30 – 8:30</span><span class="text">Eat snacks &amp; play games 🎲</span></div>
+              <div class="divider" aria-hidden="true"><span class="line"></span><svg class="crown" viewBox="0 0 64 32" width="44" height="22"><path d="M4 26l6-14 10 10 12-16 12 16 10-10 6 14H4zM6 28h52v2H6z"/></svg><span class="line"></span></div>
+
+              <div class="entry"><span class="time">8:30 pm</span><span class="text">Dinner 🍽️</span></div>
+            </div>
+
+            <div class="note venue wedding">
+              <h3 class="wedding-sub">Venue</h3>
+              <p class="wedding-body">6660 Telford Ave, Burnaby, BC</p>
+            </div>
+          </div>
+        </section>
+
+        <!-- Hinged FRONT COVER (animates when opening/closing) -->
+        <div id="cover" class="cover">
+          <!-- FRONT face (visible when closed) -->
+          <div class="face front">
+            <div class="cover-inner">
+              <h1 class="script">Stuti is inviting</h1>
+              <h1 class="script">you to her</h1>
+              <h2 class="script-subtitle">Birthday Party</h2>
+              <div class="sparkles">✨</div>
+              <div class="tap-hint">❤️ Tap</div>
+
+            </div>
+          </div>
+          <!-- BACK face (becomes left page when open) -->
+          <div class="face back">
+            <div class="page">
+              <div class="photo">
+                <img src="images/hero.jpg" alt="Birthday photo" />
+              </div>
+              <div class="note">
+                <h2 class="wedding-title">From Stuti to You 💛</h2>
+                <p class="wedding-body">Join us for an evening of celebration, laughter, and making beautiful memories together!</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </main>
+
+  <script src="script/script.js" defer></script>
+</body>
+</html>

@@ -1,0 +1,444 @@
+:root{
+  --bg:#08080c; --ink:#f6f6fb;
+  --gold:#f7d47b; --gold-deep:#e4b858; --gold-glow: rgba(247,212,123,.35);
+  --card-grad-top:#151525; --card-grad-bot:#0d0d19;
+}
+
+*{box-sizing:border-box}
+html,body{height:100%; margin:0}
+
+/* Background */
+body{
+  background: radial-gradient(1200px 700px at 50% -10%, #181830 0%, var(--bg) 60%);
+  color:var(--ink);
+  font-family:Poppins,system-ui,Segoe UI,Roboto,Arial,sans-serif;
+  overflow:hidden;
+  -webkit-user-select:none; user-select:none;
+}
+
+/* Balloons layer */
+.balloon-sky{ position:fixed; inset:0; pointer-events:none; overflow:hidden; z-index:0 }
+
+/* Stage = fixed, full viewport, centers the book */
+.scene{
+  position:fixed; inset:0; z-index:1;
+  display:flex; align-items:center; justify-content:center;
+  perspective:2000px; padding:16px;
+}
+
+/* Book: container that maintains centered position */
+.book{
+  position:relative;
+  width:min(860px, 94vw);
+  height:min(600px, 75vh);
+  transform-style:preserve-3d;
+  cursor: pointer;
+}
+
+/* Mobile adjustments for better aspect ratio */
+@media (max-width: 768px) {
+  .book {
+    width: min(720px, 94vw);
+    height: min(540px, 70vh);
+  }
+}
+
+@media (max-width: 480px) {
+  .book {
+    width: 94vw;
+    height: min(480px, 65vh);
+    max-width: 420px;
+  }
+}
+
+/* Book container - holds all pages and maintains centering */
+.book-container {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  transform-style: preserve-3d;
+}
+
+/* Panels (left and right pages) */
+.panel{
+  position:absolute; 
+  top:0;
+  width:50%; 
+  height:100%;
+  border-radius:18px; 
+  overflow:hidden;
+  background:linear-gradient(180deg,var(--card-grad-top),var(--card-grad-bot));
+  border:1px solid #ffffff14;
+  opacity: 0;
+  transition: opacity 0.4s ease-in-out;
+}
+
+/* Position left and right panels */
+.panel.left {
+  left: 0;
+}
+
+.panel.right {
+  right: 0;
+}
+
+/* Visibility states with smooth transitions */
+.book.closed .panel {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.book.open .panel {
+  opacity: 1;
+  pointer-events: auto;
+  transition-delay: 0.8s; /* Delay showing pages until cover is partially open */
+}
+
+/* Page layout */
+.page{ 
+  position:absolute; 
+  inset:0; 
+  display:flex; 
+  flex-direction:column; 
+  gap:12px; 
+  padding:16px 
+}
+
+/* Photo styling */
+.photo{ 
+  height:68%; 
+  border-radius:14px; 
+  overflow:hidden; 
+  box-shadow:0 16px 36px rgba(0,0,0,.45) 
+}
+
+@media (max-width:768px){ 
+  .photo{ height:62% } 
+}
+
+@media (max-width:480px){ 
+  .photo{ height:55% }
+  .page { padding: 12px; gap: 8px; }
+}
+
+.photo img{ width:100%; height:100%; object-fit:cover }
+
+/* Note cards */
+.note{ 
+  border:1px solid #ffffff22; 
+  border-radius:14px; 
+  background:#ffffff10; 
+  padding:14px 
+}
+
+@media (max-width:480px){ 
+  .note { padding: 10px; }
+}
+
+.note h2,.note h3{ margin:0 0 8px }
+.wedding{ font-family:"Alex Brush", cursive }
+.wedding-title{ 
+  font-size:clamp(1.2rem,4vw,2.2rem); 
+  color:var(--gold); 
+  text-shadow:0 0 18px var(--gold-glow), 0 0 28px rgba(247,212,123,.18) 
+}
+.wedding-sub{ 
+  font-size:clamp(1rem,3.4vw,1.9rem); 
+  color:var(--gold) 
+}
+.wedding-body{ 
+  font-size:clamp(0.9rem,3vw,1.25rem); 
+  color:#f4f0e6;
+  line-height: 1.5;
+}
+
+/* Schedule */
+.schedule{ padding-top:10px }
+
+@media (max-width:480px){ 
+  .schedule { padding-top: 6px; }
+}
+
+.entry{ 
+  display:flex; 
+  gap:10px; 
+  align-items:flex-start; 
+  flex-wrap:wrap; 
+  margin:6px 0 
+}
+
+@media (max-width:480px){ 
+  .entry { gap: 6px; margin: 4px 0; }
+}
+
+.entry .time{ 
+  font-weight:700; 
+  color:var(--gold); 
+  font-size:clamp(0.9rem,3.6vw,1.4rem); 
+  min-width:7ch 
+}
+.entry .text{ 
+  font-size:clamp(0.85rem,3.2vw,1.3rem) 
+}
+
+.divider{ 
+  display:flex; 
+  align-items:center; 
+  gap:10px; 
+  margin:8px 0 
+}
+
+@media (max-width:480px){ 
+  .divider { margin: 6px 0; gap: 6px; }
+}
+
+.divider .line{ 
+  flex:1; 
+  height:2px; 
+  background:linear-gradient(90deg,transparent,rgba(247,212,123,.85),transparent); 
+  filter:drop-shadow(0 0 6px var(--gold-glow)) 
+}
+.divider .crown{ 
+  fill:var(--gold-deep);
+  width: 44px;
+  height: 22px;
+}
+
+@media (max-width:480px){ 
+  .divider .crown { width: 36px; height: 18px; }
+}
+
+.venue{ 
+  background:rgba(255,255,255,.12); 
+  border-color:rgba(247,212,123,.55) 
+}
+
+/* ===== Hinged cover (animates during open/close) ===== */
+.cover{
+  position:absolute; 
+  top:0;
+  right:0;
+  width:50%; 
+  height:100%;
+  transform-origin:left center; 
+  transform:rotateY(0deg);
+  border-radius:18px; 
+  transform-style:preserve-3d; 
+  z-index:10;
+  transition: transform 2s cubic-bezier(0.4, 0.0, 0.2, 1);
+}
+
+/* Open state animation */
+.book.open .cover {
+  transform: rotateY(-170deg);
+}
+
+.face{ 
+  position:absolute; 
+  inset:0; 
+  border-radius:18px; 
+  backface-visibility:hidden; 
+  -webkit-backface-visibility:hidden 
+}
+
+/* Front face styling */
+.face.front{
+  background: linear-gradient(135deg, #0a0a0f 0%, #12121a 50%, #0a0a0f 100%);
+  border:1px solid rgba(247,212,123,.45);
+  box-shadow:
+    0 20px 60px rgba(0,0,0,.7),
+    inset 0 0 60px rgba(247,212,123,.08);
+}
+
+.face.front::before{
+  content:""; 
+  position:absolute; 
+  inset:16px; 
+  border-radius:14px;
+  border:1px solid rgba(247,212,123,.4);
+  box-shadow:inset 0 0 40px rgba(247,212,123,.15);
+}
+
+.cover-inner{ 
+  position:absolute; 
+  inset:0; 
+  display:flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align:center; 
+  padding:20px 
+}
+
+.script{ 
+  font-family:"Great Vibes", cursive; 
+  font-size:clamp(1.3rem,5vw,2.4rem); 
+  color:var(--gold); 
+  text-shadow:0 0 25px var(--gold-glow), 0 0 50px rgba(247,212,123,.2); 
+  line-height:1.2;
+  margin: 0;
+}
+
+.script-subtitle{ 
+  font-family:"Great Vibes", cursive; 
+  font-size:clamp(1.8rem,7vw,3.6rem); 
+  color:var(--gold); 
+  text-shadow:0 0 30px var(--gold-glow), 0 0 60px rgba(247,212,123,.25); 
+  line-height:1;
+  margin: 10px 0 20px 0;
+}
+
+@media (max-width:480px){ 
+  .script { font-size:clamp(1.1rem,4.5vw,2rem); }
+  .script-subtitle { font-size:clamp(1.5rem,6vw,2.8rem); }
+}
+
+/* Sparkles */
+.sparkles {
+  font-size: 2rem;
+  animation: sparkle 2s ease-in-out infinite;
+  opacity: 0.8;
+}
+
+@keyframes sparkle {
+  0%, 100% { 
+    opacity: 0.8; 
+    transform: scale(1) rotate(0deg);
+  }
+  50% { 
+    opacity: 1; 
+    transform: scale(1.2) rotate(180deg);
+  }
+}
+
+/* Back face (LEFT inside page when flipped) */
+.face.back{
+  transform:rotateY(180deg);
+  background:linear-gradient(180deg,var(--card-grad-top),var(--card-grad-bot));
+  border:1px solid #ffffff14;
+}
+
+/* Hover effect for closed card */
+.book.closed:hover .cover {
+  transform: rotateY(-5deg);
+}
+
+/* ===== Balloons ===== */
+.bunch{ 
+  position:absolute; 
+  bottom:-200px; 
+  width:clamp(80px,20vw,140px); 
+  height:clamp(120px,25vw,200px); 
+  pointer-events:none; 
+  animation:rise var(--dur,26s) linear infinite; 
+  transform:translate(0,0); 
+  filter:drop-shadow(0 10px 24px rgba(0,0,0,.35)) 
+}
+
+@keyframes rise{ 
+  to{ transform:translate(var(--dx,-6vw), -120vh) } 
+}
+
+.balloon{ 
+  position:absolute; 
+  width:clamp(24px,6vw,44px); 
+  height:clamp(30px,7.5vw,56px); 
+  border-radius:50% 50% 46% 46%; 
+  opacity:.96; 
+  box-shadow:inset -8px -12px 18px rgba(0,0,0,.18) 
+}
+
+.balloon::before{ 
+  content:""; 
+  position:absolute; 
+  top:25%; 
+  left:25%; 
+  width:40%; 
+  height:40%; 
+  background:radial-gradient(circle at 30% 30%, rgba(255,255,255,.95), rgba(255,255,255,0) 70%); 
+  border-radius:50% 
+}
+
+.balloon::after{ 
+  content:""; 
+  position:absolute; 
+  left:50%; 
+  bottom:-60%; 
+  width:2px; 
+  height:60%; 
+  transform:translateX(-50%); 
+  background:linear-gradient(180deg, rgba(255,255,255,.8), rgba(255,255,255,.15)) 
+}
+
+.balloon.gold{ 
+  background:linear-gradient(180deg,#ffe9a8 0%, #f0c56a 62%, #a9792c 100%) 
+}
+.balloon.pearl{ 
+  background:linear-gradient(180deg,#fffef6 0%, #f7efe0 70%, #e6d4a8 100%); 
+  box-shadow:inset -8px -12px 18px rgba(160,140,80,.18) 
+}
+
+.b1{ left:0; bottom:30% } 
+.b2{ left:40%; bottom:50% } 
+.b3{ left:70%; bottom:35% }
+
+@media (max-width:480px){ 
+  .bunch:nth-child(n+9){ display:none } 
+}
+
+.tap-hint {
+  position: absolute;
+  bottom: 14px;
+  right: 16px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--gold);
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  animation: pulse 1.8s infinite ease-in-out;
+  cursor: pointer;
+}
+
+@keyframes pulse {
+  0%, 100% { transform: scale(1); opacity: 0.8; }
+  50% { transform: scale(1.2); opacity: 1; }
+}
+
+
+.face.front::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 18px;
+  border: 2px dashed rgba(247,212,123,.3);
+  pointer-events: none;
+  animation: borderGlow 4s linear infinite;
+}
+
+@keyframes borderGlow {
+  0%, 100% { box-shadow: 0 0 6px var(--gold-glow); }
+  50% { box-shadow: 0 0 16px var(--gold-glow); }
+}
+
+
+.panel .page {
+  background-image: radial-gradient(circle at 20% 20%, rgba(247,212,123,.12), transparent 40%),
+                    radial-gradient(circle at 80% 80%, rgba(255,255,255,.08), transparent 40%);
+  background-repeat: no-repeat;
+}
+
+/* Override schedule text to normal font */
+.schedule .entry .text {
+  font-family: Poppins, Arial, sans-serif !important;
+  font-weight: 400;
+  font-size: 10px;
+  color: #f4f0e6; /* keep consistent with your body text */
+}
+
+/* Make venue address text normal font */
+.note.venue .wedding-body {
+  font-family: Poppins, Arial, sans-serif !important;
+  font-weight: 400;
+  color: #f4f0e6; /* match your other body text */
+}
